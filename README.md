@@ -268,7 +268,7 @@ check that the new value was applied:
 cat /proc/sys/fs/inotify/max_user_watches
 ```
 
-- Error: "node_modules/web3-core-helpers/lib/formatters.js [0] Module parse failed: Unexpected token; You may need an appropriate loader to handle this file type.". Fix : Use Web3 v1.2.9.
+- Error: "node_modules/web3-core-helpers/lib/formatters.js [0] Module parse failed: Unexpected token; You may need an appropriate loader to handle this file type.". Fix : Use Web3 v1.2.9 (npm install web3@1.2.9 --save-dev).
 
 - State persisting between 2 runs. Fix : add a migrate script in package.json : 
 ```
