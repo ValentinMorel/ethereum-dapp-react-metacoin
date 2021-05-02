@@ -278,3 +278,6 @@ cat /proc/sys/fs/inotify/max_user_watches
 - Need 2 terminals to run ganache, deploy smart contracts and frontend. Fix : make a scripts in package.json : 
 ```
 "concurrently \"npm run ganache\" \"npm run migrate\" \"npm run dev\""
+```
+
+TODO: modify the ethereum-blockies and deploy it as package on git to avoid the by hand modification. ("React not defined")
