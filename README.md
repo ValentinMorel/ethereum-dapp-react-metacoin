@@ -67,6 +67,9 @@ This new level of quality allows Progressive Web Apps to earn a place on the use
 
 ## Environment
 
+Installing nvm will avoid a lot of pain (allows switching between node version, installs the appropriate npm versions), e.g permissions to access folders. 
+Follow this tutorial : [How To Install NodeJS On Linux](https://ostechnix.com/install-node-js-linux/)
+
 - Node v11.6.0
 - npm v6.5.0-next.0
 - Truffle v5.3.4
