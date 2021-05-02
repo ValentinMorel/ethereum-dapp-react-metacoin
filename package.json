@@ -24,6 +24,7 @@
   ],
   "main": "bin/server.js",
   "scripts": {
+    "ganache": "ganache-cli --networkId $npm_package_config_ganache_networkId --allowUnlimitedContractSize --gasLimit $npm_package_config_ganache_gasLimit --gasPrice $npm_package_config_ganache_gasPrice --mnemonic \"$MNEMONIC\"",
     "precommit": "lint-staged",
     "precommit-prettier": "eslint --print-config .eslintrc.js | prettier-eslint --write",
     "start": "concurrently --kill-others \"npm run start-prod\" \"npm run start-prod-api\"",
@@ -45,6 +46,14 @@
     "docker-prod": ". ./docker/run.prod.sh",
     "lighthouse-report": "LIGHTHOUSE_CHROMIUM_PATH=$(which google-chrome) lighthouse http://localhost:8080"
   },
+  "config": {
+    "ganache": {
+        "networkId": 3431,
+        "gasPrice": 25000000000,
+        "gasLimit": 6500000
+    }
+  },
+
   "lint-staged": {
     "+(src|api)/**/*.js": [
       "npm run precommit-prettier",
@@ -194,6 +203,7 @@
     "file-loader": "^0.11.2",
     "font-awesome": "^4.7.0",
     "font-awesome-webpack": "^0.0.5-beta.2",
+    "ganache-cli": "^6.12.2",
     "happypack": "^3.0.2",
     "html-webpack-plugin": "^2.30.1",
     "husky": "^0.14.3",

@@ -181,6 +181,97 @@ Thanks for checking this out.
 Created by:
 – Leopold Joy, [@leopoldjoy](https://twitter.com/leopoldjoy)
 
-## Changelog (make it functional)
+## Changelog (to make it functional)
 
-- "Your account is locked" from parity chain : use truffle instead
+- Version of compiler raising errors during compilation : changed from 0.4.4 to 0.4.24.
+
+- "Your account is locked" from parity chain : use ganache-cli instead
+```
+npm install ganache-cli --save-dev
+export MNEMONIC="cause dry tilt taste hamster document hen over acoustic explain game distance"
+```
+
+add this to package.json:
+```
+"scripts": {
+        "ganache": "ganache-cli --networkId $npm_package_config_ganache_networkId --allowUnlimitedContractSize --gasLimit $npm_package_config_ganache_gasLimit --gasPrice $npm_package_config_ganache_gasPrice --mnemonic \"$MNEMONIC\""
+}
+"config": {
+        "ganache": {
+          "networkId": 3431,
+          "gasPrice": 25000000000,
+          "gasLimit": 6500000
+    }
+  },
+
+```
+
+
+- bug with concurrently in package.json scripts -> delete postinstall line
+
+
+
+- "Migrations ran out of gas", "Migrations exceeded the block with a gas value you set" : fixed with this configuration in truffle-config.js :
+```
+var networkId = process.env.npm_package_config_ganache_networkId;
+var gasPrice = process.env.npm_package_config_ganache_gasPrice;
+var gasLimit = process.env.npm_package_config_ganache_gasLimit;
+module.exports = {
+  networks: {
+    development: {
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
+      gas: gasLimit,
+      gasPrice: gasPrice 
+    },
+
+  // Configure your compilers
+  compilers: {
+    solc: {
+      version: "0.4.24",    // Fetch exact version from solc-bin (default: truffle's version)
+      settings: {          // See the solidity docs for advice about optimization and evmVersion
+        optimizer: {
+          enabled: true,
+          runs: 200
+        },
+      }
+    }
+  },
+}
+```
+
+- "ReferenceError : React is not defined in "node_modules/ethereum-blockies/react-component.js. Fix : Adding "var React = require("react");"
+
+
+- Can't fetch the repository "react-redux-universal-hot-example" on version 0.1.0. Fix : change the version to 0.9.0
+
+- Error : "cannot read property 'type' of undefined property from node_modules/eslint/lib/rules/no-unused-vars.js". Fix : change version of babel-eslint from ^7.1.1 to ^8.1.1.
+
+- "Error: ENOSPC: System limit for number of file watchers reached". Fix : 
+
+Linux uses the inotify package to observe filesystem events, individual files or directories.
+
+Since React / Angular hot-reloads and recompiles files on save it needs to keep track of all project's files. Increasing the inotify watch limit should hide the warning messages.
+
+You could try editing:
+
+insert the new value into the system config:
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+check that the new value was applied:
+```
+cat /proc/sys/fs/inotify/max_user_watches
+```
+
+- Error: "node_modules/web3-core-helpers/lib/formatters.js [0] Module parse failed: Unexpected token; You may need an appropriate loader to handle this file type.". Fix : Use Web3 v1.2.9.
+
+- State persisting between 2 runs. Fix : add a migrate script in package.json : 
+```
+"migrate": "rm -rf build && truffle migrate --reset --compile-all --network development"
+```
+
+- Need 2 terminals to run ganache, deploy smart contracts and frontend. Fix : make a scripts in package.json : 
+```
+"concurrently \"npm run ganache\" \"npm run migrate\" \"npm run dev\""
